@@ -1,0 +1,22 @@
+{
+  "name": "html-element-builder",
+  "version": "0.0.1",
+  "description": "A basic helper to build HTML elements quicker.",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LaNsHoR/html-element-builder.git"
+  },
+  "keywords": [
+    "html",
+    "builder"
+  ],
+  "author": "Ernesto Azuar <lanshor@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LaNsHoR/html-element-builder/issues"
+  },
+  "homepage": "https://github.com/LaNsHoR/html-element-builder#readme"
+}
