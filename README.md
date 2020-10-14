@@ -41,7 +41,7 @@ You can replace this vanilla piece of code
 ```javascript
 // create a button programatically
 const button = document.createElement('button')
-button.classList.add('myButton')
+button.classList.add('myClass')
 button.innerHTML = 'click'
 document.body.appendChild(button)
 
