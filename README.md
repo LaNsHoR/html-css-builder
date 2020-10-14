@@ -55,7 +55,7 @@ by this
 
 ```javascript
 // build the button
-const button = builder.HTML('button', { className:'myButton', onClick:doSomething }, document.body, 'click' )
+const button = builder.HTML('button', { className:'myClass', onClick:doSomething }, document.body, 'click' )
 
 // build the image
 builder.HTML('img', { src:imgURL }, button )
