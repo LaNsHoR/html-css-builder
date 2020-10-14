@@ -42,7 +42,7 @@ You can replace this vanilla piece of code
 // create a button programatically
 const button = document.createElement('button')
 button.classList.add('myButton')
-button.innerHTML = 'Click me'
+button.innerHTML = 'click'
 document.body.appendChild(button)
 
 // create an image for the button above programatically
@@ -55,7 +55,7 @@ by this
 
 ```javascript
 // build the button
-const button = builder.HTML('button', { className:'myButton', onClick:doSomething }, document.body, 'Click me' )
+const button = builder.HTML('button', { className:'myButton', onClick:doSomething }, document.body, 'click' )
 
 // build the image
 builder.HTML('img', { src:imgURL }, button )
