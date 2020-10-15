@@ -118,6 +118,6 @@ That will "compile" the style object into standard CSS and will inject a new sty
 }
 ```
 
-to CSS, without nesting or other syntax accepted by JSS.
+to CSS; JSS features like nested selectors are not supported.
 
 **TIP:** Because the style will be available globally as vanilla CSS does, ensure you use a prefix as part of your class names to avoid collisions with your consumer and third party styles.
