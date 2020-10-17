@@ -85,11 +85,13 @@ const zoom = 2;
 const style = {
     '.myClass': {
         color: 'red',
-        size: `${10*zoom}px`
+        size: `${10*zoom}px`,
+        fontSize: '10px'
     },
 
     '.myComplex > selector': {
-        background
+        background,
+        'font-size': '10px'
     }
 }
 
@@ -99,9 +101,9 @@ builder.CSS( style )
 builder.HTML( 'div', { className:'myClass' } )
 ```
 
-That will "compile" the style object into standard CSS and will inject a new style html tag in the head with the result.
+That will "compile" the style object into standard CSS and will inject a new style html tag in the head with the result. Note that standard CSS property names like `font-size` and DOM notation versions (camel case) like `fontSize` are both supported.
 
-**IMPORTANT:** Please, keep in mind that the generated CSS will be global, so any component using _myClass_ will be affected by the example above. This approach is not intended to be used for CSS Modules. Also, don't confuse JSS with the style object we use in this builder, this style object maps directly the object with format
+**IMPORTANT:** Please, keep in mind that the generated CSS will be global, so any component using _myClass_ will be affected by the example above. This approach is not intended to be used as util for CSS Modules. Also, don't confuse JSS with the style object we use in this builder, this style object maps directly the object with format
 
 ```javascript
 {
@@ -118,6 +120,6 @@ That will "compile" the style object into standard CSS and will inject a new sty
 }
 ```
 
-to CSS; JSS features like nested selectors are not supported.
+to CSS. This is just a tiny, lightweight and fast util focused in small size and performance behind KISS principles.
 
-**TIP:** Because the style will be available globally as vanilla CSS does, ensure you use a prefix as part of your class names to avoid collisions with your consumer and third party styles.
+**TIP:** Because the style will be available globally as vanilla CSS does, ensure you use a prefix as part of your class names to avoid collisions with your consumer and third party styles. The use of prefixes has several advantages over hashing, like allowing the consumer expand the style without new classes injection.

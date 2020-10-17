@@ -6,21 +6,23 @@ const HTML = (tag, props = {}, parent = null, content = null) => {
     return element
 }
 
-const CSS = jcss => {
+const CSS = styles => {
     let content = '';
-    for(selector in jcss) {
+    for(selector in styles) {
+        const block = new Map( Object.entries(styles[selector] ))
         content += `\n${selector} {\n`
-        for(property in jcss[selector])
-            content += `   ${property}:${jcss[selector][property]};\n`
+        block.forEach( (value, property) => {
+            // if the property is not supported, we assume it has been introduced as camelCase, so we transform it back to standard-css-names
+            if( ! window.CSS.supports(property, value) )
+                property = property.charAt(0).toLowerCase()+property.slice(1).replaceAll(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
+            content += `   ${property}:${value};\n`
+        })
         content += '}\n'
     }
-    HTML('style', {}, document.getElementsByTagName('head')[0], content)
+    HTML('style', {}, document.querySelector('head'), content)
 }
 
-const CSS_Link = path => {
-    const head = document.getElementsByTagName('head')[0]
-    HTML('link', { href:path, type:'text/css', rel:'stylesheet' }, head)
-}
+const CSS_Link = path => HTML('link', { href:path, type:'text/css', rel:'stylesheet' }, document.querySelector('head'))
 
 exports.HTML = HTML
 exports.CSS = CSS
