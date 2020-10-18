@@ -1,4 +1,3 @@
-const { JSDOM } = require('jsdom')
 const builder = require('./index.js')
 
 const window = global
@@ -83,9 +82,6 @@ test('build CSS with several selectors and properties', () => {
             'max-width': '400px'
         }
     }
-    //jsdom doesn't support window.CSS.supports, so we mock it manually
-    window.CSS = {}
-    window.CSS.supports = property => property != 'fontSize'
 
     builder.CSS(style)
     
@@ -101,8 +97,6 @@ test('build CSS with several selectors and properties', () => {
     // div.Big > a img
     const complex_selector = stylesheet.cssRules[2]
     expect(complex_selector.style['max-width']).toBe('400px')
-
-    delete window.CSS
 })
 
 test('create link for css file', () => {
