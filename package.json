@@ -4,6 +4,7 @@
   "description": "A basic helper to build HTML elements quicker.",
   "main": "index.js",
   "scripts": {
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/LaNsHoR/html-builder/issues"
   },
-  "homepage": "https://github.com/LaNsHoR/html-builder#readme"
+  "homepage": "https://github.com/LaNsHoR/html-builder#readme",
+  "devDependencies": {
+    "jest": "^26.5.3"
+  }
 }

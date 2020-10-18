@@ -14,7 +14,7 @@ const CSS = styles => {
         block.forEach( (value, property) => {
             // if the property is not supported, we assume it has been introduced as camelCase, so we transform it back to standard-css-names
             if( ! window.CSS.supports(property, value) )
-                property = property.charAt(0).toLowerCase()+property.slice(1).replaceAll(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
+                property = property.charAt(0).toLowerCase()+property.slice(1).replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
             content += `   ${property}:${value};\n`
         })
         content += '}\n'

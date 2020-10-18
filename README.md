@@ -8,7 +8,7 @@ It helps building components without using libraries like React.
 const builder = require('html-builder')
 
 // only html_tag is mandatory
-builder.HTML( html_tag, props, parent, content)
+builder.HTML( html_tag, properties, parent, content)
 ```
 
 ## Basic Examples
