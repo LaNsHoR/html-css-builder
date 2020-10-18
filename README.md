@@ -1,14 +1,12 @@
-# html-builder
-A basic helper to build HTML elements quicker.
+# HTML-Builder
 
-It helps building components without using libraries like React.
+An ultra lightweight helper to build HTML elements components and compositions.
 
 ## Usage
 ```javascript
 const builder = require('html-builder')
 
-// only html_tag is mandatory
-builder.HTML( html_tag, properties, parent, content)
+builder.HTML( html_tag, properties, parent, content )
 ```
 
 ## Basic Examples
@@ -20,7 +18,7 @@ builder.HTML('div')
 
 Create an image
 ```javascript
-builder.HTML('img', { src:imgUrl } )
+builder.HTML('img', { src : img_url } )
 ```
 
 Create a div and append it into the DOM
@@ -103,7 +101,7 @@ builder.HTML( 'div', { className:'myClass' } )
 
 That will "compile" the style object into standard CSS and will inject a new style html tag in the head with the result. Note that standard CSS property names like `font-size` and DOM notation versions (camel case) like `fontSize` are both supported.
 
-**IMPORTANT:** Please, keep in mind that the generated CSS will be global, so any component using _myClass_ will be affected by the example above. This approach is not intended to be used as util for CSS Modules. Also, don't confuse JSS with the style object we use in this builder, this style object maps directly the object with format
+**IMPORTANT:** Please, keep in mind that the generated CSS will be global, so any component using _myClass_ will be affected by the example above. This approach is not intended to be used as util for CSS Modules. Also, **don't confuse JSS with the style object we use in this builder**, this style object maps directly the object with format
 
 ```javascript
 {
@@ -120,6 +118,6 @@ That will "compile" the style object into standard CSS and will inject a new sty
 }
 ```
 
-to CSS. This is just a tiny, lightweight and fast util focused in small size and performance behind KISS principles.
+to CSS. JSS syntax is not supported and it's not intended to. The goal of this builder is provide a tiny, lightweight and fast util focused in small size and performance behind KISS principles.
 
-**TIP:** Because the style will be available globally as vanilla CSS does, ensure you use a prefix as part of your class names to avoid collisions with your consumer and third party styles. The use of prefixes has several advantages over hashing, like allowing the consumer expand the style without new classes injection.
+**TIP:** Because the style will be available globally as vanilla CSS does, ensure you use a prefix as part of your class names to avoid collisions with your consumer and third party styles. The use of prefixes has several advantages over hashing, like allow the consumer to expand the style without new classes injection.
