@@ -104,3 +104,10 @@ test('build CSS with several selectors and properties', () => {
 
     delete window.CSS
 })
+
+test('create link for css file', () => {
+    const uri = 'http://localhost/style.css'
+    builder.CSS_Link(uri)
+    const link = window.document.querySelector('link')
+    expect(link.href).toBe(uri)
+})
