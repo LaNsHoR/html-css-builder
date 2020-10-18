@@ -103,7 +103,7 @@ builder.HTML( 'div', { className:'myClass' } )
 
 That will "compile" the style object into standard CSS and will inject a new style html tag in the head with the result. Note that standard CSS property names like `font-size` and DOM notation versions (camel case) like `fontSize` are both supported.
 
-**IMPORTANT:** Please, keep in mind that the generated CSS will be global, so any component using _myClass_ will be affected by the example above. This approach is not intended to be used as util for CSS Modules. Also, <ins>**don't confuse JSS with the style object we use in this builder**</ins>, this builder maps directly an object with format
+**IMPORTANT:** Please, keep in mind that the generated CSS will be global, so any component using _myClass_ will be affected by the example above. This approach is not intended to be used as util for CSS Modules. Also, <ins>don't confuse JSS with the style object we use in this builder</ins>, this builder maps directly an object with format
 
 ```javascript
 {
