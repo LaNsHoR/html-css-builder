@@ -1,6 +1,6 @@
 {
   "name": "@lanshor/html-builder",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A basic helper to build HTML elements quicker.",
   "main": "index.js",
   "scripts": {

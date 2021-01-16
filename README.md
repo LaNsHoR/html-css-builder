@@ -2,7 +2,12 @@
 
 An ultra lightweight helper to build HTML elements components and compositions.
 
-The goal of this builder is provide a tiny, light and fast util focused in small size and performance behind KISS principles.
+The goal of this builder is to provide a tiny, light and fast util focused on small size and performance behind KISS principles.
+
+## Install
+```bash
+npm install @lanshor/html-builder
+```
 
 ## Usage
 ```javascript
@@ -70,7 +75,7 @@ A method to inject css files programmatically is also supplied
 builder.CSS_Link( 'https://www.domain.com/my_style.css' )
 ```
 
-It will generate a new link tag containing the stylesheet as part of head section of your document.
+It will generate a new link tag containing the stylesheet as part of the head section of your document.
 
 ## CSS Builder
 
@@ -83,16 +88,16 @@ const background= 'red';
 const zoom = 2;
 
 const style = {
-    '.myClass': {
-        color: 'red',
-        size: `${10*zoom}px`,
-        fontSize: '10px'
-    },
+    '.myClass': {
+        color: 'red',
+        size: `${10*zoom}px`,
+        fontSize: '10px'
+    },
 
-    '.myComplex > selector': {
-        background,
-        'font-size': '10px'
-    }
+    '.myComplex > selector': {
+        background,
+        'font-size': '10px'
+    }
 }
 
 builder.CSS( style )
@@ -107,13 +112,13 @@ That will "compile" the style object into standard CSS and will inject a new sty
 
 ```javascript
 {
-    selector_1 : {
-        property_1 : value_1,
-        property_2 : value_2,
-    },
-    selector_2 : {
-        property_1 : value_1
-    }
+    selector_1 : {
+        property_1 : value_1,
+        property_2 : value_2,
+    },
+    selector_2 : {
+        property_1 : value_1
+    }
 }
 ```
 
