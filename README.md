@@ -6,7 +6,7 @@ The goal of this builder is provide a tiny, light and fast util focused in small
 
 ## Usage
 ```javascript
-const builder = require('html-builder')
+const builder = require('@lanshor/html-builder')
 
 builder.HTML( html_tag, properties, parent, content )
 ```
