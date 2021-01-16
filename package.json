@@ -1,5 +1,5 @@
 {
-  "name": "html-builder",
+  "name": "@lanshor/html-builder",
   "version": "0.1.2",
   "description": "A basic helper to build HTML elements quicker.",
   "main": "index.js",
@@ -22,5 +22,8 @@
   "homepage": "https://github.com/LaNsHoR/html-builder#readme",
   "devDependencies": {
     "jest": "^26.5.3"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
