@@ -1,17 +1,17 @@
-# HTML-Builder
+# HTML-CSS-Builder
 
-An ultra lightweight helper to build HTML elements components and compositions.
+An ultra lightweight helper to build CSS and HTML elements components and compositions.
 
 The goal of this builder is to provide a tiny, light and fast util focused on small size and performance behind KISS principles.
 
 ## Install
 ```bash
-npm install @lanshor/html-builder
+npm install html-css-builder
 ```
 
 ## Usage
 ```javascript
-const builder = require('@lanshor/html-builder')
+const builder = require('html-css-builder')
 
 builder.HTML( html_tag, properties, parent, content )
 ```
@@ -102,7 +102,7 @@ const style = {
 
 builder.CSS( style )
 
-// so now I can use myClass in my components
+// so now I can use myClass in your components
 builder.HTML( 'div', { className:'myClass' } )
 ```
 

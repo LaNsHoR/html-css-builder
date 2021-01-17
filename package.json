@@ -1,25 +1,26 @@
 {
-  "name": "@lanshor/html-builder",
-  "version": "0.1.3",
-  "description": "A basic helper to build HTML elements quicker.",
+  "name": "html-css-builder",
+  "version": "0.1.4",
+  "description": "A basic helper to build CSS and HTML elements quicker.",
   "main": "index.js",
   "scripts": {
     "test": "jest --collect-coverage"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LaNsHoR/html-builder.git"
+    "url": "git+https://github.com/LaNsHoR/html-css-builder.git"
   },
   "keywords": [
     "html",
+    "css",
     "builder"
   ],
   "author": "Ernesto Azuar <lanshor@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/LaNsHoR/html-builder/issues"
+    "url": "https://github.com/LaNsHoR/html-css-builder/issues"
   },
-  "homepage": "https://github.com/LaNsHoR/html-builder#readme",
+  "homepage": "https://github.com/LaNsHoR/html-css-builder#readme",
   "devDependencies": {
     "jest": "^26.5.3"
   },
