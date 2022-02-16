@@ -1,7 +1,7 @@
 {
   "name": "html-css-builder",
-  "version": "0.1.4",
-  "description": "A basic helper to build CSS and HTML elements quicker.",
+  "version": "0.1.5",
+  "description": "Ultra lightweight helper to build CSS and HTML elements quicker.",
   "main": "index.js",
   "scripts": {
     "test": "jest --collect-coverage"

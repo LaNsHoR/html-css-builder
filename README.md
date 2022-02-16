@@ -1,42 +1,42 @@
-# HTML-CSS-Builder
+# HTML-Builder
 
-An ultra lightweight helper to build CSS and HTML elements components and compositions.
+Ultra lightweight helper to build HTML elements components and compositions.
 
-The goal of this builder is to provide a tiny, light and fast util focused on small size and performance behind KISS principles.
-
-## Install
-```bash
-npm install html-css-builder
-```
+The goal of this builder is provide a tiny, light and fast util focused in small size and performance.
 
 ## Usage
 ```javascript
-const builder = require('html-css-builder')
+const { HTML } = require('html-builder')
 
-builder.HTML( html_tag, properties, parent, content )
+HTML( html_tag, properties, parent, content, attributes )
 ```
 
 ## Basic Examples
 
-Create a div
+Create a div:
 ```javascript
-builder.HTML('div')
+HTML('div')
 ```
 
-Create an image
+Create an image:
 ```javascript
-builder.HTML('img', { src : img_url } )
+const src = '/path/to/my_image.png'
+HTML('img', { src } )
 ```
 
-Create a div and append it into the DOM
+Create a div and append it into the DOM:
 ```javascript
-builder.HTML('div', {}, document.body )
+HTML('div', { className:'myDiv' }, document.body )
 ```
 
-Create a link into a div
-
+Create a link into a div:
 ```javascript
-builder.HTML('a', { href:url }, builder.HTML('div'), 'Link Text' )
+HTML('a', { href:url }, HTML('div'), 'Link Text' )
+```
+
+Using attributes:
+```javascript
+HTML('div', {}, null, 'my content', { 'data-test-id':'something' })
 ```
 
 ## Complex Example
@@ -61,10 +61,10 @@ by this
 
 ```javascript
 // build the button
-const button = builder.HTML('button', { className:'myClass', onClick:doSomething }, document.body, 'click')
+const button = HTML('button', { className:'myClass', onClick:doSomething }, document.body, 'click')
 
 // build the image
-builder.HTML('img', { src:imgURL }, button )
+HTML('img', { src:imgURL }, button )
 ```
 
 ## CSS injector
@@ -72,10 +72,12 @@ builder.HTML('img', { src:imgURL }, button )
 A method to inject css files programmatically is also supplied
 
 ```javascript
-builder.CSS_Link( 'https://www.domain.com/my_style.css' )
+const { CSS_Link } = require('html-builder')
+
+CSS_Link( 'https://www.domain.com/my_style.css' )
 ```
 
-It will generate a new link tag containing the stylesheet as part of the head section of your document.
+It will generate a new link tag containing the stylesheet as part of head section of your document.
 
 ## CSS Builder
 
@@ -84,26 +86,28 @@ You can also build CSS within javascript. This is useful to distribute small com
 Example:
 
 ```javascript
+const { CSS } = require('html-builder')
+
 const background= 'red';
 const zoom = 2;
 
 const style = {
-    '.myClass': {
-        color: 'red',
-        size: `${10*zoom}px`,
-        fontSize: '10px'
-    },
+    '.myClass': {
+        color: 'red',
+        size: `${10*zoom}px`,
+        fontSize: '10px'
+    },
 
-    '.myComplex > selector': {
-        background,
-        'font-size': '10px'
-    }
+    '.myComplex > selector': {
+        background,
+        'font-size': '10px'
+    }
 }
 
-builder.CSS( style )
+CSS( style )
 
-// so now I can use myClass in your components
-builder.HTML( 'div', { className:'myClass' } )
+// so now I can use myClass in my components
+HTML( 'div', { className:'myClass' } )
 ```
 
 That will "compile" the style object into standard CSS and will inject a new style html tag in the head with the result. Note that standard CSS property names like `font-size` and DOM notation versions (camel case) like `fontSize` are both supported.
@@ -112,13 +116,13 @@ That will "compile" the style object into standard CSS and will inject a new sty
 
 ```javascript
 {
-    selector_1 : {
-        property_1 : value_1,
-        property_2 : value_2,
-    },
-    selector_2 : {
-        property_1 : value_1
-    }
+    selector_1 : {
+        property_1 : value_1,
+        property_2 : value_2,
+    },
+    selector_2 : {
+        property_1 : value_1
+    }
 }
 ```
 

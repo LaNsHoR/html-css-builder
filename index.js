@@ -1,8 +1,9 @@
-const HTML = (tag, props = {}, parent = null, content = null) => {
+const HTML = (tag, props = {}, parent = null, content = null, attrs = {} ) => {
     const element = document.createElement(tag)
     Object.keys(props).forEach( prop => element[prop] = props[prop] )
     parent && parent.appendChild(element)
     content && (element.innerHTML = content)
+    Object.keys(attrs).forEach( attribute => element.setAttribute(attribute, attrs[attribute]) )
     return element
 }
 
