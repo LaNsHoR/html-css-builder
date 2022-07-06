@@ -1,6 +1,6 @@
 {
   "name": "html-css-builder",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Ultra lightweight helper to build CSS and HTML elements quicker.",
   "main": "index.js",
   "scripts": {

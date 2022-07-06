@@ -9,7 +9,7 @@ const HTML = (tag, props = {}, parent = null, content = null, attrs = {} ) => {
 
 const CSS = styles => {
     let content = '';
-    for(selector in styles) {
+    for(const selector in styles) {
         const block = new Map( Object.entries(styles[selector] ))
         content += `\n${selector} {\n`
         block.forEach( (value, property) => {
