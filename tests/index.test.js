@@ -1,4 +1,4 @@
-const { HTML, CSS, CSS_Link } = require('./index.js')
+const { HTML, CSS, CSS_Link } = require('../src/index.js')
 
 const window = global
 
