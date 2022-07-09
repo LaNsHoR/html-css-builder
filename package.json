@@ -1,6 +1,6 @@
 {
   "name": "html-css-builder",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Ultra lightweight helper to build CSS and HTML elements quicker.",
   "main": "src/index.js",
   "scripts": {
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/LaNsHoR/html-css-builder#readme",
   "devDependencies": {
-    "jest": "^26.5.3"
+    "jest": "^28.1.2"
   },
   "publishConfig": {
     "access": "public"
