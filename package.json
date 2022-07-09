@@ -22,12 +22,14 @@
   },
   "homepage": "https://github.com/LaNsHoR/html-css-builder#readme",
   "devDependencies": {
-    "jest": "^28.1.2"
+    "jest": "^28.1.2",
+    "jest-environment-jsdom": "^28.1.2"
   },
   "publishConfig": {
     "access": "public"
   },
   "jest": {
-    "coverageDirectory": "tests/coverage"
+    "coverageDirectory": "tests/coverage",
+    "testEnvironment": "jsdom"
   }
 }
