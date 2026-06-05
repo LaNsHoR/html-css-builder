@@ -111,3 +111,30 @@ test('using attributes', () => {
     expect(element.getAttribute('data-test')).toBe('it works')
     expect(element.getAttribute('custom')).toBe('yes')
 })
+
+test('build CSS with a nested at-rule (@media)', () => {
+    const style = {
+        '@media (max-width: 600px)': {
+            '.responsive': { color: 'blue' }
+        }
+    }
+    CSS(style)
+    const stylesheets = window.document.styleSheets
+    const stylesheet = stylesheets[stylesheets.length-1]
+    const media_rule = stylesheet.cssRules[0]
+    // the at-rule wraps a recursed inner rule
+    expect(media_rule.media.mediaText).toContain('600px')
+    expect(media_rule.cssRules[0].selectorText).toBe('.responsive')
+    expect(media_rule.cssRules[0].style.color).toBe('blue')
+})
+
+test('a declaration-only at-rule (@font-face) stays a flat block', () => {
+    const style = {
+        '@font-face': { fontFamily: 'MyFont', src: 'url(font.woff2)' }
+    }
+    CSS(style)
+    const stylesheets = window.document.styleSheets
+    const stylesheet = stylesheets[stylesheets.length-1]
+    const font_rule = stylesheet.cssRules[0]
+    expect(font_rule.style.getPropertyValue('font-family')).toBe('MyFont')
+})

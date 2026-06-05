@@ -7,20 +7,26 @@ const HTML = (tag, props = {}, parent = null, content = null, attrs = {} ) => {
     return element
 }
 
-const CSS = styles => {
-    let content = '';
+// render a flat declaration block { property: value } as CSS lines, converting camelCase property names to kebab-case
+const declarations = block => Object.entries( block ).map( ([ property, value ]) => {
+    property = property.charAt(0).toLowerCase() + property.slice(1).replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
+    return `   ${property}:${value};\n`
+}).join('')
+
+// render rules recursively. An at-rule (@media, @supports, @starting-style, @container...) whose body holds nested
+// rules (its values are objects) gets its body recursed; plain selectors and prop-only at-rules (@font-face, whose
+// values are strings) render as a flat declaration block. This keeps existing flat usage byte-for-byte identical.
+const rules = styles => {
+    let content = ''
     for(const selector in styles) {
-        const block = new Map( Object.entries(styles[selector] ))
-        content += `\n${selector} {\n`
-        block.forEach( (value, property) => {
-            // convert camel case property names to CSS
-            property = property.charAt(0).toLowerCase()+property.slice(1).replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
-            content += `   ${property}:${value};\n`
-        })
-        content += '}\n'
+        const body = styles[selector]
+        const nested = selector.startsWith('@') && Object.values( body ).some( value => typeof value === 'object' && value !== null )
+        content += `\n${selector} {\n${ nested ? rules( body ) : declarations( body ) }}\n`
     }
-    HTML('style', {}, document.querySelector('head'), content)
+    return content
 }
+
+const CSS = styles => HTML('style', {}, document.querySelector('head'), rules( styles ))
 
 const CSS_Link = path => HTML('link', { href:path, type:'text/css', rel:'stylesheet' }, document.querySelector('head'))
 
