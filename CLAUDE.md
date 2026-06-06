@@ -14,7 +14,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Public API (three exports)
 
-- `HTML(tag, props = {}, parent = null, content = null, attrs = {})` — creates an element. `props` are assigned as DOM **properties** (`element[prop] = value`, so `className`/`onclick` work, not `class`); `attrs` are set via `setAttribute` (for `data-*`, custom attributes); `content` sets `innerHTML`; `parent` (if truthy) appends the element. Returns the element. Because `parent` is the 3rd arg, you nest by passing another `HTML(...)` call as the parent.
+- `HTML(tag, props = {}, parent = null, content = null, attrs = {})` — creates an element. `props` are assigned as DOM **properties** (`element[prop] = value`, so `className`/`onclick` work, not `class`/`onClick`); `attrs` are set via `setAttribute` (for `data-*`, custom attributes); `content` sets `innerHTML` when it is not `null`/`undefined` (so a meaningful `0` renders, but the default skips assignment); `parent` (if truthy) appends the element. Returns the element. Because `parent` is the 3rd arg, you nest by passing another `HTML(...)` call as the parent.
 - `CSS(styles)` — compiles a plain `{ selector: { property: value } }` object into a CSS string and injects a new `<style>` tag into `<head>`. Output is **global** (not scoped/CSS-modules); the library deliberately maps the object directly to vanilla CSS and is **not** JSS.
 - `CSS_Link(path)` — injects a `<link rel="stylesheet">` into `<head>`.
 
@@ -22,13 +22,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 The CSS generator is split into two mutually-recursive helpers — understand this before touching CSS output:
 
-- `declarations(block)` renders a flat `{ property: value }` map. It converts camelCase property names to kebab-case (`fontSize` → `font-size`), so both DOM-style and standard CSS property names are accepted.
-- `rules(styles)` iterates selectors. A selector is treated as **nested** only when it starts with `@` AND its body contains at least one object value (e.g. `@media`, `@supports`, `@container`, `@starting-style` wrapping inner rules) — in that case the body is recursed through `rules` again. Everything else (plain selectors, and declaration-only at-rules like `@font-face` whose values are strings) renders as a flat `declarations` block.
+- `declarations(block)` renders a flat `{ property: value }` map. It converts each uppercase letter to `-<lowercase>`, so camelCase becomes kebab-case (`fontSize` → `font-size`) AND a leading capital becomes a leading dash, making vendor prefixes work (`WebkitTransform` → `-webkit-transform`). Names starting with `--` (CSS custom properties) are case-sensitive and passed through untouched. Both DOM-style and plain-string CSS property names are therefore accepted.
+- `rules(styles)` iterates the object's own keys (`Object.keys`). A selector is treated as **nested** only when it starts with `@` AND its body contains at least one object value (e.g. `@media`, `@supports`, `@container`, `@starting-style` wrapping inner rules) — in that case the body is recursed through `rules` again. Everything else (plain selectors, and declaration-only at-rules like `@font-face` whose values are strings) renders as a flat `declarations` block.
 
-Critical invariant: **the flat (non-nested) output must remain byte-for-byte identical** — the recursive refactor preserved exact whitespace/formatting (3-space indent, leading/trailing newlines). Verify any change to these helpers against existing tests, which assert on the parsed `document.styleSheets` CSSOM (`cssRules`, `selectorText`, `style.<prop>`, and `CSSMediaRule.cssRules` for nesting).
+Critical invariant: **the flat (non-nested) output must remain byte-for-byte identical** — the recursive refactor preserved exact whitespace/formatting (3-space indent, leading/trailing newlines). Verify any change to these helpers against existing tests. Most assert on the parsed `document.styleSheets` CSSOM (`cssRules`, `selectorText`, `style.<prop>`, `CSSMediaRule.cssRules`); but jsdom's CSSOM silently drops properties it doesn't recognise (vendor prefixes, custom properties), so those cases assert against the raw text of the injected `<style>` tag instead — keep both styles of assertion in mind when adding tests.
 
 ## Notes
 
-- The README's example uses `require('html-builder')`, but the actual package/import name is `html-css-builder`.
 - `.npmignore` excludes `tests/`, `node_modules`, and `coverage/` from the published package — keep test/dev artifacts out of `src/`.
-- Versioning: bumps are committed manually in `package.json` (e.g. the nested-at-rule feature bumped 0.1.8 → 0.2.0).
+- Versioning: bumps are committed manually in `package.json`. The current `0.2.0` (nested at-rules + the property-conversion fixes) is **not yet published** — it lives on the `dev` branch, so it's fine to keep changing without a further bump until release.
