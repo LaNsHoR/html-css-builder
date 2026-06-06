@@ -111,3 +111,100 @@ test('using attributes', () => {
     expect(element.getAttribute('data-test')).toBe('it works')
     expect(element.getAttribute('custom')).toBe('yes')
 })
+
+test('build CSS with a nested at-rule (@media)', () => {
+    const style = {
+        '@media (max-width: 600px)': {
+            '.responsive': { color: 'blue' }
+        }
+    }
+    CSS(style)
+    const stylesheets = window.document.styleSheets
+    const stylesheet = stylesheets[stylesheets.length-1]
+    const media_rule = stylesheet.cssRules[0]
+    // the at-rule wraps a recursed inner rule
+    expect(media_rule.media.mediaText).toContain('600px')
+    expect(media_rule.cssRules[0].selectorText).toBe('.responsive')
+    expect(media_rule.cssRules[0].style.color).toBe('blue')
+})
+
+test('a declaration-only at-rule (@font-face) stays a flat block', () => {
+    const style = {
+        '@font-face': { fontFamily: 'MyFont', src: 'url(font.woff2)' }
+    }
+    CSS(style)
+    const stylesheets = window.document.styleSheets
+    const stylesheet = stylesheets[stylesheets.length-1]
+    const font_rule = stylesheet.cssRules[0]
+    expect(font_rule.style.getPropertyValue('font-family')).toBe('MyFont')
+})
+
+// returns the raw CSS text of the most recently injected <style> tag (jsdom's CSSOM drops
+// properties it does not recognise, e.g. vendor prefixes, so we assert on the generated text)
+const last_style_text = () => {
+    const styles = window.document.querySelectorAll('style')
+    return styles[styles.length-1].textContent
+}
+
+test('vendor prefixed properties keep their leading dash', () => {
+    CSS({ '.prefixed': { WebkitTransform: 'scale(2)', MozBoxShadow: '0 0 1px' } })
+    const css = last_style_text()
+    expect(css).toContain('-webkit-transform:scale(2);')
+    expect(css).toContain('-moz-box-shadow:0 0 1px;')
+})
+
+test('CSS custom properties (--var) are not transformed', () => {
+    CSS({ ':root': { '--myVar': '10px', '--base-size': '1rem' } })
+    const css = last_style_text()
+    expect(css).toContain('--myVar:10px;')
+    expect(css).toContain('--base-size:1rem;')
+    expect(css).not.toContain('--my-var')
+})
+
+test('build CSS with a nested at-rule holding several inner rules', () => {
+    const style = {
+        '@media (max-width: 600px)': {
+            '.a': { color: 'red' },
+            '.b': { color: 'blue' }
+        }
+    }
+    CSS(style)
+    const stylesheets = window.document.styleSheets
+    const media_rule = stylesheets[stylesheets.length-1].cssRules[0]
+    expect(media_rule.cssRules.length).toBe(2)
+    expect(media_rule.cssRules[0].selectorText).toBe('.a')
+    expect(media_rule.cssRules[1].selectorText).toBe('.b')
+})
+
+test('at-rules nest recursively beyond one level', () => {
+    const style = {
+        '@supports (display: grid)': {
+            '@media (min-width: 800px)': {
+                '.grid': { display: 'grid' }
+            }
+        }
+    }
+    CSS(style)
+    const css = last_style_text()
+    expect(css).toContain('@supports (display: grid) {')
+    expect(css).toContain('@media (min-width: 800px) {')
+    expect(css).toContain('display:grid;')
+})
+
+test('CSS_Link sets rel and type', () => {
+    CSS_Link('http://localhost/x.css')
+    const links = window.document.querySelectorAll('link')
+    const link = links[links.length-1]
+    expect(link.rel).toBe('stylesheet')
+    expect(link.type).toBe('text/css')
+})
+
+test('falsy content like 0 is still rendered', () => {
+    const element = HTML('span', {}, null, 0)
+    expect(element.innerHTML).toBe('0')
+})
+
+test('null content leaves the element empty', () => {
+    const element = HTML('span')
+    expect(element.innerHTML).toBe('')
+})
