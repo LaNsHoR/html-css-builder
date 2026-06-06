@@ -2,14 +2,18 @@ const HTML = (tag, props = {}, parent = null, content = null, attrs = {} ) => {
     const element = document.createElement(tag)
     Object.keys(props).forEach( prop => element[prop] = props[prop] )
     parent && parent.appendChild(element)
-    content && (element.innerHTML = content)
+    content != null && (element.innerHTML = content)
     Object.keys(attrs).forEach( attribute => element.setAttribute(attribute, attrs[attribute]) )
     return element
 }
 
-// render a flat declaration block { property: value } as CSS lines, converting camelCase property names to kebab-case
+// render a flat declaration block { property: value } as CSS lines, converting camelCase property names to kebab-case.
+// CSS custom properties (--name) are case-sensitive and left untouched; for everything else each uppercase letter
+// becomes a -lowercase, so a leading uppercase yields a leading dash and vendor prefixes work (WebkitTransform ->
+// -webkit-transform). Plain camelCase (fontSize -> font-size) and already-kebab names render identically to before.
 const declarations = block => Object.entries( block ).map( ([ property, value ]) => {
-    property = property.charAt(0).toLowerCase() + property.slice(1).replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
+    if( ! property.startsWith('--') )
+        property = property.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
     return `   ${property}:${value};\n`
 }).join('')
 
@@ -18,7 +22,7 @@ const declarations = block => Object.entries( block ).map( ([ property, value ])
 // values are strings) render as a flat declaration block. This keeps existing flat usage byte-for-byte identical.
 const rules = styles => {
     let content = ''
-    for(const selector in styles) {
+    for(const selector of Object.keys( styles )) {
         const body = styles[selector]
         const nested = selector.startsWith('@') && Object.values( body ).some( value => typeof value === 'object' && value !== null )
         content += `\n${selector} {\n${ nested ? rules( body ) : declarations( body ) }}\n`
